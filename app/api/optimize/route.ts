@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     const resumeId = (body.resumeId as string) ?? "default";
     const jobDescription = (body.jobDescription as string) ?? "";
     const missingKeywords = body.missingKeywords as string[] | undefined;
+    const additionalInstructions = (body.additionalInstructions as string) ?? "";
     if (!jobDescription.trim()) {
       return NextResponse.json({ error: "Job description is required" }, { status: 400 });
     }
@@ -34,7 +35,8 @@ export async function POST(request: Request) {
     const result = await optimizeResumeWithLLM(
       data.parsed,
       jobDescription,
-      missingKeywords
+      missingKeywords,
+      additionalInstructions || undefined
     );
     const optimized = result.optimizedSections as OptimizedSections;
     const merged = mergeOptimizedIntoResume(data.parsed, optimized);

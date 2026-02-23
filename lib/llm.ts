@@ -84,7 +84,8 @@ Include only sections you are revising. Omit a section to keep the original. Kee
 export async function optimizeResumeWithLLM(
   resume: ParsedResume,
   jobDescription: string,
-  missingKeywords?: string[]
+  missingKeywords?: string[],
+  additionalInstructions?: string
 ): Promise<OptimizeResponse> {
   const { client: openai, model } = getLLMConfig();
 
@@ -117,6 +118,9 @@ export async function optimizeResumeWithLLM(
     jobDescription,
     ...(missingKeywords && missingKeywords.length > 0
       ? ["### Missing keywords to weave in (optional)", missingKeywords.join(", ")]
+      : []),
+    ...(additionalInstructions?.trim()
+      ? ["### Additional Instructions", additionalInstructions.trim()]
       : []),
   ].join("\n\n");
 

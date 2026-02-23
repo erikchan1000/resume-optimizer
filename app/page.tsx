@@ -9,6 +9,7 @@ export default function Home() {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [jobDescription, setJobDescription] = useState("");
+  const [additionalInstructions, setAdditionalInstructions] = useState("");
   const [analysis, setAnalysis] = useState<AnalyzeResponse | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [optimizing, setOptimizing] = useState(false);
@@ -103,6 +104,7 @@ export default function Home() {
           resumeId: resumeId ?? "default",
           jobDescription,
           missingKeywords: analysis?.missingKeywords,
+          additionalInstructions: additionalInstructions.trim() || undefined,
         }),
       });
       const data = await res.json();
@@ -114,7 +116,7 @@ export default function Home() {
     } finally {
       setOptimizing(false);
     }
-  }, [jobDescription, analysis?.missingKeywords, resumeId]);
+  }, [jobDescription, analysis?.missingKeywords, resumeId, additionalInstructions]);
 
   const handleExport = useCallback(async () => {
     setExporting(true);
@@ -502,6 +504,18 @@ export default function Home() {
           rows={6}
           className="w-full rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600"
         />
+        <label className="mt-4 block">
+          <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
+            Additional instructions for the LLM (optional)
+          </span>
+          <textarea
+            value={additionalInstructions}
+            onChange={(e) => setAdditionalInstructions(e.target.value)}
+            placeholder="e.g. Emphasize backend and APIs; keep bullets under two lines."
+            rows={3}
+            className="mt-1 w-full rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:focus:ring-neutral-600"
+          />
+        </label>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <button
             type="button"
