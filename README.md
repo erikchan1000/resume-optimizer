@@ -37,6 +37,10 @@ Tests use **Vitest**. Use Node 20 (e.g. `nvm use 20` or `nvm use` with the proje
 - `npm run test` — run all tests once  
 - `npm run test:watch` — watch mode  
 
+## Todo
+
+- **Browser extension**: Build an extension that (1) parses the job description from the rendered job page (e.g. LinkedIn, Indeed), (2) lets the user edit their resume, and (3) opens or sends the user to the Resume Optimizer app with the job description pre-filled and supports uploading the resume into the upload section so they can analyze and optimize in one flow.
+
 ## Tech
 
 - **Next.js 15** (App Router), **Tailwind 4**, **TypeScript**
